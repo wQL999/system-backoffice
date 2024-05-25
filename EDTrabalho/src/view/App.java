@@ -31,7 +31,7 @@ public class App extends JFrame {
 	}
 
 	/**
-	 * Create the frame.
+	 * Create the shoppingCart.
 	 */
 	public App() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

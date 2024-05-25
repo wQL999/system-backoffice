@@ -28,7 +28,7 @@ public class cadCliente extends JFrame {
 	}
 
 	/**
-	 * Create the frame.
+	 * Create the shoppingCart.
 	 */
 	public cadCliente() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

@@ -31,7 +31,7 @@ public class viewBackoffice extends JFrame {
 	}
 
 	/**
-	 * Create the frame.
+	 * Create the shoppingCart.
 	 */
 	public viewBackoffice() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
