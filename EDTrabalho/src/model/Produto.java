@@ -1,13 +1,71 @@
 package model;
 
 public class Produto {
-	public long cod;
-	public String nome;
-	public double valor;
-	public String descricao;
-	public long qtdEstoque;
-	public TipoProduto tipo;
+	public static int identityCode;
 	
+	long cod;
+	String nome;
+	double valor;
+	String descricao;
+	long qtdEstoque;
+	TipoProduto tipo;
+	
+	public static int getIdentityCode() {
+		return identityCode;
+	}
+
+	public static void setIdentityCode(int identityCode) {
+		Produto.identityCode = identityCode;
+	}
+
+	public long getCod() {
+		return cod;
+	}
+
+	public void setCod(long cod) {
+		this.cod = cod;
+	}
+
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
+	public double getValor() {
+		return valor;
+	}
+
+	public void setValor(double valor) {
+		this.valor = valor;
+	}
+
+	public String getDescricao() {
+		return descricao;
+	}
+
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
+	}
+
+	public long getQtdEstoque() {
+		return qtdEstoque;
+	}
+
+	public void setQtdEstoque(long qtdEstoque) {
+		this.qtdEstoque = qtdEstoque;
+	}
+
+	public TipoProduto getTipo() {
+		return tipo;
+	}
+
+	public void setTipo(TipoProduto tipo) {
+		this.tipo = tipo;
+	}
+
 	public Produto(long cod, String nome, double valor, String descricao, long qtdEstoque, TipoProduto tipo) {		
 		this.cod = cod;
 		this.nome = nome;
@@ -15,5 +73,5 @@ public class Produto {
 		this.descricao = descricao;
 		this.qtdEstoque = qtdEstoque;
 		this.tipo = tipo;
-	}
+	}	
 }

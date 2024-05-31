@@ -13,6 +13,7 @@ import javax.swing.JButton;
 import javax.swing.JPasswordField;
 
 import controller.ProdutoController;
+import controller.TipoProdutoController;
 import model.TipoProduto;
 
 public class MaintainProduct extends JFrame {
@@ -22,7 +23,6 @@ public class MaintainProduct extends JFrame {
 	private JTextField txtNome;
 	private JTextField txtValor;
 	private JTextField txtQuantidade;
-	private JPasswordField passwordField;
 
 	/**
 	 * Launch the application.
@@ -91,7 +91,13 @@ public class MaintainProduct extends JFrame {
 		lblNewLabel_2_1.setBounds(213, 140, 117, 13);
 		contentPane.add(lblNewLabel_2_1);
 		
-		JComboBox<TipoProduto> cbTipoProduto = new JComboBox<TipoProduto>();
+		TipoProdutoController contTipoProdutos = new TipoProdutoController();
+		
+		JComboBox<String> cbTipoProduto = new JComboBox<String>();
+		
+		for(TipoProduto t: contTipoProdutos.repositoryTiposProdutos) {
+			cbTipoProduto.addItem(t.getNome());
+		}
 		
 		cbTipoProduto.setBounds(213, 163, 192, 21);
 		contentPane.add(cbTipoProduto);
@@ -104,11 +110,7 @@ public class MaintainProduct extends JFrame {
 		btnLimpar.setBounds(208, 212, 85, 21);
 		contentPane.add(btnLimpar);
 		
-		passwordField = new JPasswordField();
-		passwordField.setBounds(10, 183, 7, 19);
-		contentPane.add(passwordField);
-		
-		ProdutoController pCont = new ProdutoController(txtNome, txtNome, txtNome, cbTipoProduto, taDescricao);
+		ProdutoController pCont = new ProdutoController(txtNome, txtValor, txtQuantidade, cbTipoProduto, taDescricao);
 		
 		btnAdicionar.addActionListener(pCont);
 		btnLimpar.addActionListener(pCont);

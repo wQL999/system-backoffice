@@ -48,11 +48,9 @@ public class App extends JFrame {
 		JButton btnNewButton_1 = new JButton("Backoffice");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				for(int i = 0; i < 999999; ++i) {
-				System.out.println("DEBUG");
+							
 				viewBackoffice view = new viewBackoffice();
-				view.mainVis();
-				}
+				view.mainVis();				
 			}
 		});
 		btnNewButton_1.setBounds(250, 82, 105, 64);
