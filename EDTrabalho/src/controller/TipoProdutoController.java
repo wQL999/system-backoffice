@@ -47,7 +47,7 @@ public class TipoProdutoController {
 				return p;
 		}
 		
-		return new TipoProduto(-1, null, null);
+		return null;
 	}
 
 	public TipoProduto FindByName(String nome) {				
@@ -56,7 +56,7 @@ public class TipoProdutoController {
 				return p;
 		}
 		
-		return new TipoProduto(-1, null, null);
+		return null;
 	}
 	
 }

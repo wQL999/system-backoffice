@@ -27,7 +27,7 @@ public class ProdutoController implements ActionListener {
 	JComboBox<String> cbTipoProduto;
 	JTextArea taDescricao;
 	
-	List<Produto> repositoryProdutos = new LinkedList<Produto>();
+	public List<Produto> repositoryProdutos = new LinkedList<Produto>();
 	
 	public ProdutoController() {
 		readProdutos();
@@ -69,6 +69,14 @@ public class ProdutoController implements ActionListener {
 		return repositoryProdutos;
 	}
 
+	public Produto FindByName(String nome) {				
+		for(Produto p: repositoryProdutos) {
+			if(p.getNome().equals(nome))
+				return p;
+		}
+		return null;
+	}
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String cmd = e.getActionCommand();
