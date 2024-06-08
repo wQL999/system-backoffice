@@ -1,22 +1,12 @@
 package model;
 
-public class Produto {
-	public static int identityCode;
-	
+public class Produto {	
 	long cod;
 	String nome;
 	double valor;
 	String descricao;
 	long qtdEstoque;
 	TipoProduto tipo;
-	
-	public static int getIdentityCode() {
-		return identityCode;
-	}
-
-	public static void setIdentityCode(int identityCode) {
-		Produto.identityCode = identityCode;
-	}
 
 	public long getCod() {
 		return cod;

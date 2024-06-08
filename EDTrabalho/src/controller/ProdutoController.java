@@ -19,8 +19,6 @@ import model.Produto;
 import model.TipoProduto;
 
 public class ProdutoController implements ActionListener {
-	public static long identityCod=1;
-	
 	JTextField txtNome;
 	JTextField txtValor;
 	JTextField txtQuantidade;
@@ -68,6 +66,48 @@ public class ProdutoController implements ActionListener {
 		}
 		return repositoryProdutos;
 	}
+	
+	public void update(long cod) {
+		TipoProdutoController contTipoController = new TipoProdutoController();
+		Produto p = new Produto(cod, txtNome.getText(), Double.parseDouble(txtValor.getText()), taDescricao.getText(), Long.parseLong(txtQuantidade.getText()), contTipoController.FindByName((String)cbTipoProduto.getSelectedItem()));
+		
+		repositoryProdutos.clear();
+		
+		String updateFile="";
+		
+		try {
+			BufferedReader fr = new BufferedReader(new FileReader("data/products.csv"));
+			
+			String text;
+			
+			try {
+				while((text = fr.readLine()) != null) {
+					String[] att = text.split(";");
+					if(text.equals("")) continue;
+					
+					if(!att[0].equals(String.valueOf(cod))) {
+						updateFile += text + "\n";
+					} else {
+						updateFile += p.getCod() + ";" + p.getNome() + ";" + p.getValor() + ";" + p.getDescricao() + ";" + p.getQtdEstoque() + ";" + p.getTipo().getCod() + "\n";
+					}					
+				}
+				
+				fr.close();
+				
+				FileWriter fw = new FileWriter("data/products.csv");
+				fw.append(updateFile);
+				fw.close();
+				
+				readProdutos();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 
 	public Produto FindByName(String nome) {				
 		for(Produto p: repositoryProdutos) {
@@ -87,7 +127,7 @@ public class ProdutoController implements ActionListener {
 				
 				TipoProdutoController contTipoProdutos = new TipoProdutoController();										
 				
-				repositoryProdutos.add(new Produto(ProdutoController.identityCod++, txtNome.getText(), Double.parseDouble(txtValor.getText()), taDescricao.getText(), Long.parseLong(txtQuantidade.getText()), contTipoProdutos.FindByName((String)cbTipoProduto.getSelectedItem())));
+				repositoryProdutos.add(new Produto(repositoryProdutos.size()+1, txtNome.getText(), Double.parseDouble(txtValor.getText()), taDescricao.getText(), Long.parseLong(txtQuantidade.getText()), contTipoProdutos.FindByName((String)cbTipoProduto.getSelectedItem())));
 				
 				for(Produto p: repositoryProdutos) {
 					fw.append(p.getCod() + ";" + p.getNome() + ";" + p.getValor() + ";" + p.getDescricao() + ";" + p.getQtdEstoque() + ";" + p.getTipo().getCod() + "\n");

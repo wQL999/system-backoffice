@@ -31,6 +31,8 @@ import javax.swing.UIManager;
 import javax.swing.JTextArea;
 import javax.swing.JComboBox;
 import javax.swing.ListSelectionModel;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class DashboardProduct extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -39,7 +41,9 @@ public class DashboardProduct extends JFrame {
 	private JTextField txtNome;
 	private JTextField txtValor;
 	private JTextField txtQuantidade;
-
+	ProdutoController contProduto;
+	int selectedIndex = -1;
+	
 	/**
 	 * Launch the application.
 	 */
@@ -59,7 +63,10 @@ public class DashboardProduct extends JFrame {
 	/**
 	 * Create the frame.
 	 */
+	
+
 	public DashboardProduct() {
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1017, 521);
 		contentPane = new JPanel();
@@ -69,7 +76,8 @@ public class DashboardProduct extends JFrame {
 		contentPane.setLayout(null);
 		
 		String columns[] = {"Nome", "Descrição", "Valor", "Quantidade", "Tipo do produto"};
-		ProdutoController contProduto = new ProdutoController();
+		contProduto = new ProdutoController();
+		
 		Object data[][] = new Object[contProduto.repositoryProdutos.size()][5];
 		
 		int base=0;
@@ -114,13 +122,27 @@ public class DashboardProduct extends JFrame {
 		table.setRowSelectionAllowed(true);
 			
        
-		JButton btnNewButton = new JButton("Adicionar novo produto");
-		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		btnNewButton.setBounds(20, 35, 298, 44);
-		contentPane.add(btnNewButton);
+		JButton btnCreate = new JButton("Adicionar novo produto");
+		btnCreate.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				EventQueue.invokeLater(new Runnable() {
+					public void run() {
+						try {
+							MaintainProduct frame = new MaintainProduct();
+							frame.setVisible(true);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+				});
+			}
+		});
+		btnCreate.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		btnCreate.setBounds(20, 35, 298, 44);
+		contentPane.add(btnCreate);
 		
 		JPanel panel = new JPanel();
-		panel.setBounds(20, 89, 298, 364);
+		panel.setBounds(20, 89, 298, 385);
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
@@ -145,7 +167,7 @@ public class DashboardProduct extends JFrame {
 		panel.add(lblNewLabel_1);
 		
 		JTextArea taDescricao = new JTextArea();
-		taDescricao.setBounds(10, 262, 249, 92);
+		taDescricao.setBounds(10, 262, 249, 71);
 		
 		taDescricao.setOpaque(false);
 		panel.add(taDescricao);
@@ -184,11 +206,39 @@ public class DashboardProduct extends JFrame {
 		}
 		
 		panel.add(cbTipoProduto);
+		
+		JButton btnUpdate = new JButton("Salvar alterações");
+		btnUpdate.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				contProduto = new ProdutoController(txtNome, txtValor, txtQuantidade, cbTipoProduto, taDescricao);
+				
+				Object[] aux = {txtNome.getText(), taDescricao.getText(),txtValor.getText(), txtQuantidade.getText(), cbTipoProduto.getSelectedItem()};
+				data[selectedIndex] = aux;
+				
+				contProduto.update(contProduto.repositoryProdutos.get(table.getSelectedRow()).getCod());
+				
+				table.getModel().setValueAt(txtNome.getText(), table.getSelectedRow(), 0);
+				table.getModel().setValueAt(taDescricao.getText(), table.getSelectedRow(), 1);
+				table.getModel().setValueAt(txtValor.getText(), table.getSelectedRow(), 2);
+				table.getModel().setValueAt(txtQuantidade.getText(), table.getSelectedRow(), 3);
+				table.getModel().setValueAt(cbTipoProduto.getSelectedItem(), table.getSelectedRow(), 4);
+				
+			}
+		});
+		btnUpdate.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		btnUpdate.setBounds(10, 343, 121, 32);
+		panel.add(btnUpdate);
+		
+		JButton btnDelete = new JButton("Excluir");
+		btnDelete.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		btnDelete.setBounds(178, 343, 110, 32);
+		panel.add(btnDelete);
 		cellSelectionModel.addListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent e){
 				table.repaint();
 				
 				Produto p = contProduto.FindByName((String)table.getValueAt(table.getSelectedRow(), 0));
+				selectedIndex = table.getSelectedRow();
 				
 				txtNome.setText(p.getNome());
 				txtValor.setText(String.valueOf(p.getValor()));
