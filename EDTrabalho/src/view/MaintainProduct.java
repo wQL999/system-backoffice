@@ -114,18 +114,6 @@ public class MaintainProduct extends JFrame {
 		
 		ProdutoController pCont = new ProdutoController(txtNome, txtValor, txtQuantidade, cbTipoProduto, taDescricao);
 		
-		JButton btnVoltar = new JButton("Voltar");
-		MaintainProduct t = this;
-		btnVoltar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				t.setVisible(false);
-				DashboardProduct d = new DashboardProduct();
-				d.setVisible(true);
-			}
-		});
-		btnVoltar.setBounds(10, 6, 74, 22);
-		contentPane.add(btnVoltar);
-		
 		btnAdicionar.addActionListener(pCont);
 		btnLimpar.addActionListener(pCont);
 	}

@@ -64,6 +64,8 @@ public class DashboardCustomer extends JFrame {
 
 	String columnsPF[] = {"CPF", "Nome", "Celular", "CEP", "Endereco", "Complemento", "Numero Porta"};
 	String columnsPJ[] = {"CNPJ", "Nome Fantasia", "Telefone", "Email", "CEP", "Endereco", "Complemento", "Numero Porta"};
+	private JTextField txtSearch;
+	private Container btnPesquisar;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -92,6 +94,7 @@ public class DashboardCustomer extends JFrame {
 		panel.setBounds(20, 89, 298, 385);
 		contentPane.add(panel);
 		panel.setLayout(null);
+		DashboardCustomer d = this;
 
 		rdbtnPF = new JRadioButton("Pessoa Física");
 		rdbtnPF.setSelected(true);
@@ -164,8 +167,9 @@ public class DashboardCustomer extends JFrame {
 				EventQueue.invokeLater(new Runnable() {
 					public void run() {
 						try {
-							cadCliente frame = new cadCliente();
-							frame.setVisible(true);
+							d.dispose();
+							MaintainCustomer frame = new MaintainCustomer();
+							frame.main(null);
 						} catch (Exception e) {
 							e.printStackTrace();
 						}
@@ -218,6 +222,18 @@ public class DashboardCustomer extends JFrame {
 		btnDelete.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnDelete.setBounds(178, 343, 110, 32);
 		panel.add(btnDelete);
+		
+		JButton btnVoltar = new JButton("Voltar");
+		btnVoltar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				d.dispose();
+				viewBackoffice vBK = new viewBackoffice();
+				vBK.main();
+			}
+		});
+		
+		btnVoltar.setBounds(10, 6, 74, 22);
+		contentPane.add(btnVoltar);
 
 		lblCelular = new JLabel("Celular:");
 		lblCelular.setFont(new Font("Tahoma", Font.PLAIN, 15));
@@ -330,6 +346,30 @@ public class DashboardCustomer extends JFrame {
 		txtTelefone.setColumns(10);
 		txtTelefone.setBounds(153, 80, 135, 19);
 		panel.add(txtTelefone);
+		
+		JLabel lblNewLabel_2 = new JLabel("Pesquisar:");
+		lblNewLabel_2.setBounds(370, 10, 96, 13);
+		contentPane.add(lblNewLabel_2);
+		
+		JButton btnSearch = new JButton("Pesquisar");
+		btnSearch.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+		        String searchText = txtSearch.getText().toLowerCase();
+		        if (rdbtnPF.isSelected()) {
+		            searchInTable(searchText, columnsPF);
+		        } else if (rdbtnPJ.isSelected()) {
+		            searchInTable(searchText, columnsPJ);
+		        }
+		    }
+		});
+		btnSearch.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		btnSearch.setBounds(617, 5, 87, 23);
+		contentPane.add(btnSearch);
+
+		txtSearch = new JTextField();
+		txtSearch.setBounds(476, 7, 131, 19);
+		contentPane.add(txtSearch);
+		txtSearch.setColumns(10);
 
 		table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             public void valueChanged(ListSelectionEvent event) {
@@ -366,6 +406,38 @@ public class DashboardCustomer extends JFrame {
 
 		updateTable();
 	}
+	
+	private void searchInTable(String searchText, String[] columns) {
+	    DefaultTableModel searchTableModel = new DefaultTableModel();
+	    for (String column : columns) {
+	        searchTableModel.addColumn(column);
+	    }
+
+	    if (rdbtnPF.isSelected()) {
+	        for (PessoaFisica ppf : customerCont.customerPF) {
+	            if (ppf.cpf.toLowerCase().contains(searchText) || ppf.nome.toLowerCase().contains(searchText) ||
+	                ppf.celular.toLowerCase().contains(searchText) || ppf.cep.toLowerCase().contains(searchText) ||
+	                ppf.endereco.toLowerCase().contains(searchText) || ppf.complemento.toLowerCase().contains(searchText) ||
+	                Integer.toString(ppf.numPorta).toLowerCase().contains(searchText)) {
+	                Object[] row = {ppf.cpf, ppf.nome, ppf.celular, ppf.cep, ppf.endereco, ppf.complemento, ppf.numPorta};
+	                searchTableModel.addRow(row);
+	            }
+	        }
+	    } else if (rdbtnPJ.isSelected()) {
+	        for (PessoaJuridica ppj : customerCont.customerPJ) {
+	            if (ppj.cnpj.toLowerCase().contains(searchText) || ppj.nomeFantasia.toLowerCase().contains(searchText) ||
+	                ppj.telefone.toLowerCase().contains(searchText) || ppj.email.toLowerCase().contains(searchText) ||
+	                ppj.cep.toLowerCase().contains(searchText) || ppj.endereco.toLowerCase().contains(searchText) ||
+	                ppj.complemento.toLowerCase().contains(searchText) || Integer.toString(ppj.numPorta).toLowerCase().contains(searchText)) {
+	                Object[] row = {ppj.cnpj, ppj.nomeFantasia, ppj.telefone, ppj.email, ppj.cep, ppj.endereco, ppj.complemento, ppj.numPorta};
+	                searchTableModel.addRow(row);
+	            }
+	        }
+	    }
+
+	    table.setModel(searchTableModel);
+	}
+	
 
     private void updateTable() {
         tableModel.setRowCount(0); 

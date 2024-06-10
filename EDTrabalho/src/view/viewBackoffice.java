@@ -17,7 +17,7 @@ public class viewBackoffice extends JFrame {
 	/**
 	 * Launch the application.
 	 */
-	public void mainVis() {
+	public void main() {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -41,22 +41,19 @@ public class viewBackoffice extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JButton btnNewButton = new JButton("CadastraCliente");
+		viewBackoffice t = this;
+		JButton btnNewButton = new JButton("Dashboard Cliente");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				cadCliente view = new cadCliente();
-				view.main(null);
+				t.dispose();
+				DashboardCustomer dCus = new DashboardCustomer();
+				dCus.main(null);
 			}
 		});
 		btnNewButton.setBounds(26, 10, 108, 50);
 		contentPane.add(btnNewButton);
 		
-		JButton btnNewButton_1 = new JButton("ExcluirCliente");
-		btnNewButton_1.setBounds(168, 10, 108, 50);
-		contentPane.add(btnNewButton_1);
-		
 		JButton btnNewButton_2 = new JButton("Dashboard Produtos");
-		viewBackoffice t = this;
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				t.setVisible(false);

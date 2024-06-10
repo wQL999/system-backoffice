@@ -1,6 +1,8 @@
 package view;
 
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
@@ -16,7 +18,7 @@ import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JRadioButton;
 
-public class cadCliente extends JFrame {
+public class MaintainCustomer extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -53,7 +55,7 @@ public class cadCliente extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					cadCliente frame = new cadCliente();
+					MaintainCustomer frame = new MaintainCustomer();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -65,7 +67,7 @@ public class cadCliente extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public cadCliente() {
+	public MaintainCustomer() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 525, 301);
 		contentPane = new JPanel();
@@ -203,6 +205,21 @@ public class cadCliente extends JFrame {
 		JButton btnLimpar = new JButton("Limpar");
 		btnLimpar.setBounds(271, 225, 85, 21);
 		contentPane.add(btnLimpar);
+		
+		
+		JButton btnVoltar = new JButton("Voltar");
+		MaintainCustomer mc = this;
+		btnVoltar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				mc.dispose();
+				DashboardCustomer dcus = new DashboardCustomer();
+				dcus.main(null);
+			}
+		});
+		
+		btnVoltar.setBounds(420, 5, 74, 22);
+		contentPane.add(btnVoltar);
+
 		
 		ClienteController cCont = new ClienteController(
 				txtNome,
