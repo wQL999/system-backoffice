@@ -4,6 +4,7 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -21,7 +22,7 @@ import java.awt.color.ColorSpace;
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.swing.JTable;
+import javax.swing.table.*;
 import javax.swing.JButton;
 import javax.swing.JFormattedTextField;
 import java.awt.Color;
@@ -37,13 +38,14 @@ import java.awt.event.ActionEvent;
 public class DashboardProduct extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
+	private DefaultTableModel tableModel;
 	private JTable table;
 	private JTextField txtNome;
 	private JTextField txtValor;
 	private JTextField txtQuantidade;
 	ProdutoController contProduto;
 	int selectedIndex = -1;
-	
+	Object[][] data;
 	/**
 	 * Launch the application.
 	 */
@@ -78,15 +80,24 @@ public class DashboardProduct extends JFrame {
 		String columns[] = {"Nome", "Descrição", "Valor", "Quantidade", "Tipo do produto"};
 		contProduto = new ProdutoController();
 		
-		Object data[][] = new Object[contProduto.repositoryProdutos.size()][5];
+		data = new Object[contProduto.repositoryProdutos.size()][5];
 		
 		int base=0;
 		for(Produto p: contProduto.repositoryProdutos) {
 			Object[] aux = {p.getNome(), p.getDescricao(), p.getValor(), p.getQtdEstoque(), p.getTipo().getNome()};
 			data[base++] = aux;
 		}
-				
-		table = new JTable(data, columns) {
+					
+		tableModel = new DefaultTableModel();
+		for(int i = 0;i < columns.length;i++) {
+			tableModel.addColumn(columns[i]);
+		}
+		
+		for(int i = 0;i < data.length;i++) {
+			tableModel.addRow(data[i]);
+		}
+		
+		table = new JTable(tableModel) {
 			@Override public Component prepareRenderer(TableCellRenderer renderer,
 	                int row,
 	                int col){
@@ -95,11 +106,15 @@ public class DashboardProduct extends JFrame {
 				int selRow = table.getSelectedRow();
 				if ( selCol != -1 && selRow != -1 ){
 					if (row == selRow){
+						System.out.println(selCol + ' ' + selRow);
 						c.setBackground(new Color(82, 183, 233));
 					}else{
 						c.setBackground(Color.WHITE);
 					}				
+				} else {
+					c.setBackground(Color.WHITE);
 				}
+				
 				return c;
 			}
 		
@@ -230,21 +245,49 @@ public class DashboardProduct extends JFrame {
 		panel.add(btnUpdate);
 		
 		JButton btnDelete = new JButton("Excluir");
+		btnDelete.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				selectedIndex = table.getSelectedRow();									
+				
+				Object[][] dataAux = new Object[data.length-1][5];
+				int base=0;
+				
+				for(int i = 0;i < data.length;i++) {
+					if(i != selectedIndex) {
+						dataAux[base++] = data[i];
+					}
+				}
+				
+				data = dataAux;
+				tableModel.removeRow(selectedIndex);							
+				
+				ProdutoController p = new ProdutoController();
+				p.remove(p.repositoryProdutos.get(selectedIndex).getCod());
+			}
+		});
 		btnDelete.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnDelete.setBounds(178, 343, 110, 32);
 		panel.add(btnDelete);
 		cellSelectionModel.addListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent e){
-				table.repaint();
+				table.repaint();				
 				
-				Produto p = contProduto.FindByName((String)table.getValueAt(table.getSelectedRow(), 0));
-				selectedIndex = table.getSelectedRow();
-				
-				txtNome.setText(p.getNome());
-				txtValor.setText(String.valueOf(p.getValor()));
-				txtQuantidade.setText(String.valueOf(p.getQtdEstoque()));
-				taDescricao.setText(p.getDescricao());
-				cbTipoProduto.setSelectedItem(p.getTipo().getNome());
+				if(table.getSelectedRow() == -1) {
+					txtNome.setText("");
+					txtValor.setText("");
+					txtQuantidade.setText("");
+					taDescricao.setText("");
+					cbTipoProduto.setSelectedIndex(0);
+				} else {
+					Produto p = contProduto.FindByName((String)table.getValueAt(table.getSelectedRow(), 0));
+					selectedIndex = table.getSelectedRow();
+					
+					txtNome.setText(p.getNome());
+					txtValor.setText(String.valueOf(p.getValor()));
+					txtQuantidade.setText(String.valueOf(p.getQtdEstoque()));
+					taDescricao.setText(p.getDescricao());
+					cbTipoProduto.setSelectedItem(p.getTipo().getNome());					
+				}
 			}
 		});
 	

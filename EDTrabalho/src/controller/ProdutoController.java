@@ -67,6 +67,42 @@ public class ProdutoController implements ActionListener {
 		return repositoryProdutos;
 	}
 	
+	public void remove(long cod) {			
+		repositoryProdutos.clear();
+		
+		String updateFile="";
+		
+		try {
+			BufferedReader fr = new BufferedReader(new FileReader("data/products.csv"));
+			
+			String text;
+			
+			try {
+				while((text = fr.readLine()) != null) {
+					String[] att = text.split(";");
+					if(text.equals("")) continue;
+					
+					if(!att[0].equals(String.valueOf(cod))) {
+						updateFile += text + "\n";
+					}				
+				}
+				
+				fr.close();
+				
+				FileWriter fw = new FileWriter("data/products.csv");
+				fw.append(updateFile);
+				fw.close();
+				
+				readProdutos();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	public void update(long cod) {
 		TipoProdutoController contTipoController = new TipoProdutoController();
 		Produto p = new Produto(cod, txtNome.getText(), Double.parseDouble(txtValor.getText()), taDescricao.getText(), Long.parseLong(txtQuantidade.getText()), contTipoController.FindByName((String)cbTipoProduto.getSelectedItem()));
