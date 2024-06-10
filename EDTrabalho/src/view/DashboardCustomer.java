@@ -158,7 +158,7 @@ public class DashboardCustomer extends JFrame {
 		table.setColumnSelectionAllowed(true);
 		table.setRowSelectionAllowed(true);
 
-		JButton btnCreate = new JButton("Adicionar novo produto");
+		JButton btnCreate = new JButton("Tela de novo cliente");
 		btnCreate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				EventQueue.invokeLater(new Runnable() {

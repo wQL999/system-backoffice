@@ -17,6 +17,7 @@ import javax.swing.JTextField;
 
 import model.Produto;
 import model.TipoProduto;
+import utils.HashTable;
 
 public class ProdutoController implements ActionListener {
 	JTextField txtNome;
@@ -24,6 +25,7 @@ public class ProdutoController implements ActionListener {
 	JTextField txtQuantidade;
 	JComboBox<String> cbTipoProduto;
 	JTextArea taDescricao;
+	HashTable hash;
 	
 	public List<Produto> repositoryProdutos = new LinkedList<Produto>();
 	
@@ -59,6 +61,11 @@ public class ProdutoController implements ActionListener {
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+			}
+			
+			hash = new HashTable();
+			for(Produto p: repositoryProdutos) {
+				hash.add(p);
 			}
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -146,9 +153,11 @@ public class ProdutoController implements ActionListener {
 	}
 
 	public Produto FindByName(String nome) {				
-		for(Produto p: repositoryProdutos) {
-			if(p.getNome().equals(nome))
-				return p;
+		try {
+			return hash.get(nome);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		return null;
 	}

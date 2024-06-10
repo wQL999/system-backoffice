@@ -71,9 +71,5 @@ public class Produto {
 		int posicao = nome.toLowerCase().charAt(0);
 		posicao = posicao - 97;
 		return posicao;
-		
-		
-		
-		
 	}
 }

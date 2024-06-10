@@ -14,6 +14,7 @@ import controller.ProdutoController;
 import controller.TipoProdutoController;
 import model.Produto;
 import model.TipoProduto;
+import utils.HashTable;
 
 import javax.swing.JTextField;
 import javax.swing.JLabel;
@@ -46,6 +47,8 @@ public class DashboardProduct extends JFrame {
 	ProdutoController contProduto;
 	int selectedIndex = -1;
 	Object[][] data;
+	private JTextField txtSearch;
+	
 	/**
 	 * Launch the application.
 	 */
@@ -123,7 +126,7 @@ public class DashboardProduct extends JFrame {
 		table.setSurrendersFocusOnKeystroke(true);
 		table.setColumnSelectionAllowed(true);
 		table.setCellSelectionEnabled(true);
-		table.setBounds(373, 62, 587, 372);
+		table.setBounds(370, 89, 587, 372);
 		contentPane.add(table);
 		
 		for(int c = 0;c < table.getColumnCount();c++) {
@@ -137,7 +140,7 @@ public class DashboardProduct extends JFrame {
 		table.setRowSelectionAllowed(true);
 			
        
-		JButton btnCreate = new JButton("Adicionar novo produto");
+		JButton btnCreate = new JButton("Tela de novo produto");
 		btnCreate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				EventQueue.invokeLater(new Runnable() {
@@ -268,6 +271,57 @@ public class DashboardProduct extends JFrame {
 		btnDelete.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnDelete.setBounds(178, 343, 110, 32);
 		panel.add(btnDelete);
+		
+		JLabel lblNewLabel_2 = new JLabel("Pesquisar por nome:");
+		lblNewLabel_2.setBounds(370, 10, 96, 13);
+		contentPane.add(lblNewLabel_2);
+		
+		txtSearch = new JTextField();
+		txtSearch.setBounds(476, 7, 131, 19);
+		contentPane.add(txtSearch);
+		txtSearch.setColumns(10);
+		
+		JLabel lblNewLabel_3 = new JLabel("Pesquisar por tipo:");
+		lblNewLabel_3.setBounds(617, 10, 96, 13);
+		contentPane.add(lblNewLabel_3);
+		
+		JComboBox<String> cbSearchTipo = new JComboBox<String>();
+		cbSearchTipo.setOpaque(false);
+		cbSearchTipo.setBounds(711, 6, 249, 21);
+		
+		cbSearchTipo.addItem("Qualquer");
+		
+		for(TipoProduto tp: contTipoProdutos.repositoryTiposProdutos) {
+			cbSearchTipo.addItem(tp.getNome());
+		}
+			
+		contentPane.add(cbSearchTipo);
+		
+		JButton btnPesquisar = new JButton("Pesquisar");
+		btnPesquisar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Object aux[][] = new Object[contProduto.repositoryProdutos.size()][5];
+				int base=0;
+				
+				for(Produto p: contProduto.repositoryProdutos) {
+					if((txtSearch.getText().equals("") || p.getNome().toLowerCase().substring(0, Math.min(p.getNome().length(), txtSearch.getText().length())).equals(txtSearch.getText().toLowerCase()))
+						&& (cbSearchTipo.getSelectedItem().equals("Qualquer") || cbSearchTipo.getSelectedItem().equals(p.getTipo().getNome()))) {
+							aux[base++] = new Object[] {p.getNome(), p.getDescricao(), p.getValor(), p.getQtdEstoque(), p.getTipo().getNome()};
+					}
+				}
+				
+				tableModel.setRowCount(0);
+				
+				for(int i = 0;i < base;i++) {
+					tableModel.addRow(aux[i]);
+				}
+				
+				data = aux;
+			}
+		});
+		btnPesquisar.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		btnPesquisar.setBounds(836, 31, 121, 32);
+		contentPane.add(btnPesquisar);
 		cellSelectionModel.addListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent e){
 				table.repaint();				

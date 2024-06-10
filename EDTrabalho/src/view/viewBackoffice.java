@@ -45,7 +45,7 @@ public class viewBackoffice extends JFrame {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				cadCliente view = new cadCliente();
-				view.mainVis();
+				view.main(null);
 			}
 		});
 		btnNewButton.setBounds(26, 89, 108, 50);
