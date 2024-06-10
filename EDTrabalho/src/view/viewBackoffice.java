@@ -13,7 +13,7 @@ import java.awt.event.ActionEvent;
 public class viewBackoffice extends JFrame {
 
 	private JPanel contentPane;
-
+	viewBackoffice frame;
 	/**
 	 * Launch the application.
 	 */
@@ -48,16 +48,35 @@ public class viewBackoffice extends JFrame {
 				view.main(null);
 			}
 		});
-		btnNewButton.setBounds(26, 89, 108, 50);
+		btnNewButton.setBounds(26, 10, 108, 50);
 		contentPane.add(btnNewButton);
 		
 		JButton btnNewButton_1 = new JButton("ExcluirCliente");
-		btnNewButton_1.setBounds(158, 89, 108, 50);
+		btnNewButton_1.setBounds(168, 10, 108, 50);
 		contentPane.add(btnNewButton_1);
 		
-		JButton btnNewButton_2 = new JButton("ConsultarCLiente");
-		btnNewButton_2.setBounds(291, 89, 108, 50);
+		JButton btnNewButton_2 = new JButton("Dashboard Produtos");
+		viewBackoffice t = this;
+		btnNewButton_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				t.setVisible(false);
+				DashboardProduct d = new DashboardProduct();
+				d.main(null);
+			}
+		});
+		btnNewButton_2.setBounds(21, 114, 185, 50);
 		contentPane.add(btnNewButton_2);
+		
+		JButton btnNewButton_2_1 = new JButton("Dashboard Tipos de Produtos");
+		btnNewButton_2_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				t.setVisible(false);
+				DashboardTipoProdutos d = new DashboardTipoProdutos();
+				d.main(null);
+			}
+		});
+		btnNewButton_2_1.setBounds(21, 180, 185, 50);
+		contentPane.add(btnNewButton_2_1);
 	}
 
 }

@@ -15,6 +15,8 @@ import javax.swing.JPasswordField;
 import controller.ProdutoController;
 import controller.TipoProdutoController;
 import model.TipoProduto;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class MaintainTipoProdutos extends JFrame {
 
@@ -51,11 +53,11 @@ public class MaintainTipoProdutos extends JFrame {
 		contentPane.setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("Nome:");
-		lblNewLabel.setBounds(22, 10, 45, 13);
+		lblNewLabel.setBounds(22, 34, 45, 13);
 		contentPane.add(lblNewLabel);
 		
 		txtNome = new JTextField();
-		txtNome.setBounds(22, 33, 96, 19);
+		txtNome.setBounds(22, 57, 96, 19);
 		contentPane.add(txtNome);
 		txtNome.setColumns(10);
 		
@@ -76,6 +78,18 @@ public class MaintainTipoProdutos extends JFrame {
 		contentPane.add(btnLimpar);
 		
 		TipoProdutoController pCont = new TipoProdutoController(txtNome, taDescricao);
+		MaintainTipoProdutos t = this;
+		
+		JButton btnVoltar = new JButton("Voltar");
+		btnVoltar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				t.setVisible(false);
+				DashboardTipoProdutos d = new DashboardTipoProdutos();
+				d.setVisible(true);
+			}
+		});
+		btnVoltar.setBounds(10, 3, 72, 21);
+		contentPane.add(btnVoltar);
 		
 		btnAdicionar.addActionListener(pCont);
 		btnLimpar.addActionListener(pCont);

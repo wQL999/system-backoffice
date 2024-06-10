@@ -71,7 +71,7 @@ public class DashboardProduct extends JFrame {
 	
 
 	public DashboardProduct() {
-		
+		DashboardProduct t = this;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1017, 521);
 		contentPane = new JPanel();
@@ -146,6 +146,7 @@ public class DashboardProduct extends JFrame {
 				EventQueue.invokeLater(new Runnable() {
 					public void run() {
 						try {
+							t.setVisible(false);
 							MaintainProduct frame = new MaintainProduct();
 							frame.setVisible(true);
 						} catch (Exception e) {
@@ -156,11 +157,11 @@ public class DashboardProduct extends JFrame {
 			}
 		});
 		btnCreate.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		btnCreate.setBounds(20, 35, 298, 44);
+		btnCreate.setBounds(30, 35, 298, 44);
 		contentPane.add(btnCreate);
 		
 		JPanel panel = new JPanel();
-		panel.setBounds(20, 89, 298, 385);
+		panel.setBounds(30, 89, 298, 385);
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
@@ -219,8 +220,8 @@ public class DashboardProduct extends JFrame {
 		
 		cbTipoProduto.setBounds(10, 207, 249, 21);
 		cbTipoProduto.setOpaque(false);
-		for(TipoProduto t: contTipoProdutos.repositoryTiposProdutos) {
-			cbTipoProduto.addItem(t.getNome());
+		for(TipoProduto tp: contTipoProdutos.repositoryTiposProdutos) {
+			cbTipoProduto.addItem(tp.getNome());
 		}
 		
 		panel.add(cbTipoProduto);
@@ -322,6 +323,19 @@ public class DashboardProduct extends JFrame {
 		btnPesquisar.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnPesquisar.setBounds(836, 31, 121, 32);
 		contentPane.add(btnPesquisar);
+		
+		JButton btnVoltar = new JButton("Voltar");
+		
+		btnVoltar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				t.setVisible(false);
+				viewBackoffice d = new viewBackoffice();
+				d.setVisible(true);
+			}
+		});
+		btnVoltar.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		btnVoltar.setBounds(30, 5, 69, 21);
+		contentPane.add(btnVoltar);
 		cellSelectionModel.addListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent e){
 				table.repaint();				

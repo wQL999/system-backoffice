@@ -57,6 +57,7 @@ public class DashboardTipoProdutos extends JFrame {
 	 * Create the frame.
 	 */
 	public DashboardTipoProdutos() {
+		DashboardTipoProdutos t = this;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1017, 521);
 		contentPane = new JPanel();
@@ -125,12 +126,13 @@ public class DashboardTipoProdutos extends JFrame {
 		table.setRowSelectionAllowed(true);
 			
        
-		JButton btnCreate = new JButton("Adicionar novo tipo");
+		JButton btnCreate = new JButton("Tela de novo tipo");
 		btnCreate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				EventQueue.invokeLater(new Runnable() {
 					public void run() {
 						try {
+							t.setVisible(false);
 							MaintainTipoProdutos frame = new MaintainTipoProdutos();
 							frame.setVisible(true);
 						} catch (Exception e) {
@@ -141,11 +143,11 @@ public class DashboardTipoProdutos extends JFrame {
 			}
 		});
 		btnCreate.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		btnCreate.setBounds(20, 35, 298, 44);
+		btnCreate.setBounds(20, 62, 298, 44);
 		contentPane.add(btnCreate);
 		
 		JPanel panel = new JPanel();
-		panel.setBounds(20, 89, 298, 385);
+		panel.setBounds(20, 127, 298, 347);
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
@@ -187,7 +189,7 @@ public class DashboardTipoProdutos extends JFrame {
 			}
 		});
 		btnUpdate.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		btnUpdate.setBounds(10, 343, 121, 32);
+		btnUpdate.setBounds(10, 311, 121, 32);
 		panel.add(btnUpdate);
 		
 		JButton btnDelete = new JButton("Excluir");
@@ -212,8 +214,20 @@ public class DashboardTipoProdutos extends JFrame {
 			}
 		});
 		btnDelete.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		btnDelete.setBounds(178, 343, 110, 32);
+		btnDelete.setBounds(178, 311, 110, 32);
 		panel.add(btnDelete);
+				
+		JButton btnVoltar = new JButton("Voltar");
+		btnVoltar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				t.setVisible(false);
+				viewBackoffice d = new viewBackoffice();
+				d.setVisible(true);
+			}
+		});
+		btnVoltar.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		btnVoltar.setBounds(23, 10, 80, 23);
+		contentPane.add(btnVoltar);
 		cellSelectionModel.addListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent e){
 				table.repaint();				

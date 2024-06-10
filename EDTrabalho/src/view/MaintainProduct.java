@@ -15,6 +15,8 @@ import javax.swing.JPasswordField;
 import controller.ProdutoController;
 import controller.TipoProdutoController;
 import model.TipoProduto;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class MaintainProduct extends JFrame {
 
@@ -53,11 +55,11 @@ public class MaintainProduct extends JFrame {
 		contentPane.setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("Nome:");
-		lblNewLabel.setBounds(22, 10, 45, 13);
+		lblNewLabel.setBounds(10, 38, 45, 13);
 		contentPane.add(lblNewLabel);
 		
 		txtNome = new JTextField();
-		txtNome.setBounds(22, 33, 96, 19);
+		txtNome.setBounds(10, 61, 96, 19);
 		contentPane.add(txtNome);
 		txtNome.setColumns(10);
 		
@@ -67,20 +69,20 @@ public class MaintainProduct extends JFrame {
 		
 		txtValor = new JTextField();
 		txtValor.setColumns(10);
-		txtValor.setBounds(22, 85, 96, 19);
+		txtValor.setBounds(10, 113, 96, 19);
 		contentPane.add(txtValor);
 		
 		JLabel lblValor = new JLabel("Valor:");
-		lblValor.setBounds(22, 62, 45, 13);
+		lblValor.setBounds(10, 90, 45, 13);
 		contentPane.add(lblValor);
 		
 		txtQuantidade = new JTextField();
-		txtQuantidade.setBounds(22, 137, 96, 19);
+		txtQuantidade.setBounds(10, 165, 96, 19);
 		contentPane.add(txtQuantidade);
 		txtQuantidade.setColumns(10);
 		
 		JLabel lblNewLabel_2 = new JLabel("Quantidade em estoque:");
-		lblNewLabel_2.setBounds(22, 114, 117, 13);
+		lblNewLabel_2.setBounds(10, 142, 117, 13);
 		contentPane.add(lblNewLabel_2);
 		
 		JTextArea taDescricao = new JTextArea();
@@ -111,6 +113,18 @@ public class MaintainProduct extends JFrame {
 		contentPane.add(btnLimpar);
 		
 		ProdutoController pCont = new ProdutoController(txtNome, txtValor, txtQuantidade, cbTipoProduto, taDescricao);
+		
+		JButton btnVoltar = new JButton("Voltar");
+		MaintainProduct t = this;
+		btnVoltar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				t.setVisible(false);
+				DashboardProduct d = new DashboardProduct();
+				d.setVisible(true);
+			}
+		});
+		btnVoltar.setBounds(10, 6, 74, 22);
+		contentPane.add(btnVoltar);
 		
 		btnAdicionar.addActionListener(pCont);
 		btnLimpar.addActionListener(pCont);

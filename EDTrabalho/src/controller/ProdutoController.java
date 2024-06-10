@@ -184,8 +184,13 @@ public class ProdutoController implements ActionListener {
 			}
 			
 		} else if(cmd.equals("Limpar")){
-			
 		}
+
+		txtNome.setText("");
+		txtQuantidade.setText("");
+		txtValor.setText("");
+		taDescricao.setText("");
+		cbTipoProduto.setSelectedIndex(0);
 		
 	}
 }

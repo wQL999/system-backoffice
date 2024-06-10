@@ -176,6 +176,9 @@ public class TipoProdutoController implements ActionListener{
 			
 		}
 		
+		txtNome.setText("");
+		taDescricao.setText("");
+		
 	}
 	
 }

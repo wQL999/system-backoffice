@@ -51,10 +51,11 @@ public class App extends JFrame {
 		btnNewButton.setBounds(67, 82, 105, 64);
 		contentPane.add(btnNewButton);
 		
+		App t = this;
 		JButton btnNewButton_1 = new JButton("Backoffice");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-							
+				t.setVisible(false);
 				viewBackoffice view = new viewBackoffice();
 				view.mainVis();				
 			}
