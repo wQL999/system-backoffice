@@ -3,16 +3,26 @@ package view;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import controller.customer.*;
 
-public class shoppingCart extends JFrame{
+public class ShoppingCartUI extends JFrame{
+    private int amount = 0;
+    private float total = 0;
 
-    public shoppingCart() {
+    public int getAmount() { return this.amount; }
+    public void setAmount(int amount) { this.amount = amount; }
+
+    public float getTotal() { return this.total; }
+    public void setTotal(float total) { this.total = total; }
+
+    public ShoppingCartUI(int amount, float total) {
+        this.amount = amount;
+        this.total = total;
+
         setTitle("Seu carrinho");
         setLayout(new BorderLayout());
+
         // Top Panel
         JPanel topPanel = new JPanel(new BorderLayout());
         topPanel.setBorder(new EmptyBorder(0, 50, 20, 0));
@@ -37,13 +47,8 @@ public class shoppingCart extends JFrame{
         // Separator
         JSeparator separator = new JSeparator();
 
-        // Products list
-        DefaultListModel<String> listModel = new DefaultListModel<>();
-        JList<String> list = new JList<>(listModel);
-        JScrollPane listScrollPane = new JScrollPane(list);
-        JPanel listPanel = new JPanel(new BorderLayout());
-        listPanel.setBorder(new EmptyBorder(0,  50, 50, 50));
-        listPanel.add(listScrollPane, BorderLayout.CENTER);
+        // Items list
+        JPanel listPanel = itemsList();
 
         // Adding panels
         add(topPanel, BorderLayout.NORTH);
@@ -55,7 +60,7 @@ public class shoppingCart extends JFrame{
         setSize(900, 700);
     }
 
-    private static JPanel buttonPanel() {
+    private JPanel buttonPanel() {
         Font buttonFont = new Font("Roboto", Font.BOLD, 14);
 
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
@@ -75,27 +80,36 @@ public class shoppingCart extends JFrame{
         return buttonPanel;
     }
 
-    private static JPanel labelPanel() {
+    private JPanel labelPanel() {
         JPanel labelPanel = new JPanel();
         labelPanel.setLayout(new BoxLayout(labelPanel, BoxLayout.Y_AXIS));
 
-        JLabel amountLabel = new JLabel("Quantidade: ");
+        JLabel amountLabel = new JLabel("Quantidade: " + getAmount());
         amountLabel.setFont(new Font("Roboto", Font.BOLD, 24));
         amountLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
 
-        JLabel priceLabel = new JLabel("Total: ");
+        JLabel priceLabel = new JLabel("Total: R$ " + getTotal());
         priceLabel.setFont(new Font("Roboto", Font.BOLD, 24));
         priceLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
 
-        labelPanel.add(priceLabel);
         labelPanel.add(Box.createRigidArea(new Dimension(0, 20)));
         labelPanel.add(amountLabel);
+        labelPanel.add(priceLabel);
 
         return labelPanel;
     }
 
+    private JPanel itemsList() {
+        JPanel listPanel = new JPanel(new BorderLayout());
+        DefaultListModel<Integer> listModel = new DefaultListModel<>();
+        JList<Integer> list = new JList<>(listModel);
+        JScrollPane listScrollPane = new JScrollPane(list);
+        listPanel.setBorder(new EmptyBorder(0,  50, 50, 50));
+        listPanel.add(listScrollPane, BorderLayout.CENTER);
+
+        return listPanel;
+    }
+
     public static void main(String[] args) {
-        shoppingCart shoppingCart = new shoppingCart();
-        shoppingCart.setVisible(true);
     }
 }

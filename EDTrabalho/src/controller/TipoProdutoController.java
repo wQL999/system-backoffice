@@ -31,20 +31,20 @@ public class TipoProdutoController implements ActionListener{
 	public TipoProdutoController() {
 		readTiposProdutos();
 	}
-	
+
 	public List<TipoProduto> readTiposProdutos() {
 		repositoryTiposProdutos.clear();
 		try {
 			BufferedReader fr = new BufferedReader(new FileReader("data/tipoProdutos.csv"));
-			
+
 			String text;
-			
+
 			try {
 				while((text = fr.readLine()) != null) {
-					String[] att = text.split(";");					
+					String[] att = text.split(";");
 					repositoryTiposProdutos.add(new TipoProduto(Long.parseLong(att[0]), att[1], att[2]));
 				}
-				
+
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -55,22 +55,22 @@ public class TipoProdutoController implements ActionListener{
 		}
 		return repositoryTiposProdutos;
 	}
-	
+
 	public TipoProduto FindById(long cod) {
 		for(TipoProduto p: repositoryTiposProdutos) {
 			if(p.getCod() == cod)
 				return p;
 		}
-		
+
 		return null;
 	}
 
-	public TipoProduto FindByName(String nome) {				
+	public TipoProduto FindByName(String nome) {
 		for(TipoProduto p: repositoryTiposProdutos) {
 			if(p.getNome().equals(nome))
 				return p;
 		}
-		
+
 		return null;
 	}
 	

@@ -42,6 +42,12 @@ public class App extends JFrame {
 		contentPane.setLayout(null);
 		
 		JButton btnNewButton = new JButton("Cliente");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// UIs do cliente
+			}
+		});
+
 		btnNewButton.setBounds(67, 82, 105, 64);
 		contentPane.add(btnNewButton);
 		
