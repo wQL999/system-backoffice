@@ -1,5 +1,6 @@
 package view;
 
+import controller.ProdutoController;
 import model.Produto;
 import model.TipoProduto;
 import model.CartItem;
@@ -11,20 +12,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.*;
 
 public class ShoppingUI {
     private JFrame frame;
@@ -39,7 +30,7 @@ public class ShoppingUI {
     public ShoppingUI() {
         productMap = loadProductsFromCSV("data/products.csv");
 
-        frame = new JFrame("E-Commerce App");
+        frame = new JFrame("Shopping");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(900, 700);
         frame.setLayout(new BorderLayout());
@@ -93,16 +84,16 @@ public class ShoppingUI {
     }
 
     private Map<String, Produto> loadProductsFromCSV(String filePath) {
-    	TipoProdutoController tpc = new TipoProdutoController();
-    	
+        TipoProdutoController tpc = new TipoProdutoController();
+
         Map<String, Produto> products = new HashMap<>();
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] values = line.split(";");
-                
+
                 long cod = Long.parseLong(values[0]);
-                String nome = values[1];               
+                String nome = values[1];
                 double valor = Double.parseDouble(values[2]);
                 String descricao = values[3];
                 long qtdEstoque = Long.parseLong(values[4]);
@@ -209,11 +200,24 @@ public class ShoppingUI {
             } else {
                 int result = JOptionPane.showConfirmDialog(frame, "Prosseguir para o checkout?", "Confirmar compra", JOptionPane.YES_NO_OPTION);
                 if (result == JOptionPane.YES_OPTION) {
+                	
                     CartQueue<CartItem> checkoutQueue = new CartQueue<>();
+                    ProdutoController pc = new ProdutoController();
+
                     while (!cartStack.isEmpty()) {
-                        checkoutQueue.enqueue(cartStack.pop());
+                    	CartItem item = cartStack.pop();
+                    	Produto p = item.getProduct();
+                    	
+                    	try {
+							pc.subtractQtd(p.getNome(), item.getQuantity());
+						} catch (IOException e1) {
+							e1.printStackTrace();
+						}   
+                    	
+                        checkoutQueue.enqueue(item);
                     }
                     new CheckoutScreen(checkoutQueue.toList());
+                    frame.dispose();
                 }
             }
         }
@@ -246,7 +250,7 @@ public class ShoppingUI {
         public CartItemRenderer() {
             setLayout(new BorderLayout());
             itemLabel = new JLabel();
-            itemLabel.setFont(itemLabel.getFont().deriveFont(16f)); 
+            itemLabel.setFont(itemLabel.getFont().deriveFont(16f));
             itemLabel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
             add(itemLabel, BorderLayout.CENTER);
@@ -266,10 +270,5 @@ public class ShoppingUI {
 
             return this;
         }
-    }
-
-
-    public static void main(String[] args) {
-        new ShoppingUI();
     }
 }

@@ -16,7 +16,7 @@ import javax.swing.JScrollPane;
 
 import model.CartItem;
 
-public class CheckoutScreen {
+class CheckoutScreen {
     private JFrame frame;
 
     public CheckoutScreen(List<CartItem> cartItems) {
@@ -29,17 +29,17 @@ public class CheckoutScreen {
         JList<String> checkoutList = new JList<>(checkoutListModel);
         double total = 0;
         for (CartItem item : cartItems) {
-            checkoutListModel.addElement(item.getProduct().getNome() + " - Quantidade: " + item.getQuantity() + " - Preço total: R$" + item.getTotalPrice());
+            checkoutListModel.addElement(item.toString()); // Mostra o item de forma linear
             total += item.getTotalPrice();
         }
 
         frame.add(new JScrollPane(checkoutList), BorderLayout.CENTER);
 
         JPanel bottomPanel = new JPanel(new BorderLayout());
-        JLabel totalLabel = new JLabel("Total da compra: R$" + String.format("%.2f", total));
+        JLabel totalLabel = new JLabel("Total Purchase: $" + String.format("%.2f", total));
         bottomPanel.add(totalLabel, BorderLayout.NORTH);
 
-        JButton finishButton = new JButton("Finish");
+        JButton finishButton = new JButton("Finalizar");
         finishButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
