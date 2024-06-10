@@ -27,6 +27,6 @@ public class CartItem {
 
     @Override
     public String toString() {
-        return product.getNome() + " x " + quantity + " - $" + getTotalPrice();
+        return product.getNome() + " - Quantidade: " + quantity + " - Preço: R$" + getTotalPrice();
     }
 }
